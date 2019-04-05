@@ -22,10 +22,15 @@ client.on('message', msg => {
             switch(cmd)
             {
                 case 'r':
+                    var item = args[0];
+                    var quantity = parseInt(args[1]);
+                    if(args.length == 2 && !isNaN(quantity))
                     // Notify creation of the request by direct message.
-                    //msg.member.send('Il y a ' + msg.guild.channels.size + ' salons sur ce serveur.');
-                    msg.member.send('Tu viens de créer une requête !');
-                    //channel.send(msg.member.nickname + ' vient de créer une requête !');
+                    var requestChannel = msg.guild.channels.find(channel => channel.id === '561162325403369482');
+                    requestChannel.send(msg.member.nickname + ' vient de créer une requête pour ' + quantity + " x " + item + ' !');
+                break;
+                case 'd':
+
                 break;
             }
         }
