@@ -1,2 +1,10 @@
 
 auth\.json
+
+node_modules/
+
+*.tmp
+
+package-lock\.json
+
+package\.json
