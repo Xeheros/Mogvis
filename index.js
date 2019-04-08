@@ -21,10 +21,9 @@ client.on('message', msg => {
             var params = args.splice(1);
             var cmd = args[0];
 
-            for(var i = 0 ; i < args.length ; i++)
+            for(var i = 0 ; i < params.length ; i++)
             {
                 params[i] = params[i].replace(/\"/g, "")
-                console.log("args[" + i + "]: " + params[i]);
             }
 
             switch(cmd)
