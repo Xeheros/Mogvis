@@ -41,7 +41,7 @@ client.on('message', msg => {
                             requestsChannel.send(msg.member.displayName + ' a besoin de ' + quantity + " x " + item + '.').then(
                                 function (botMsg)
                                 {
-                                    botMsg.react(":white_check_mark");
+                                    botMsg.react("✅");
                                 }
                             ).catch(function()
                             {
