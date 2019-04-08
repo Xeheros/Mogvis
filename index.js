@@ -13,7 +13,6 @@ client.on('message', msg => {
     {
         var text = msg.content;
         var channel = msg.channel;
-        console.log("Message sent: " + text);
         if(text.substr(0, 1) === '!')
         {
             var regexp = /[^\s"']+|"([^"]*)"|'([^']*)'/g;
@@ -36,7 +35,7 @@ client.on('message', msg => {
                         if(params.length == 2 && !isNaN(quantity))
                         {
                             // Notify creation of the request by direct message.
-                            var requestsChannel = msg.guild.channels.find(channel => channel.id === config.requestChannel);
+                            var requestsChannel = msg.guild.channels.find(channel => (channel.name.includes("request") || channel.name.includes("requête")));
                             requestsChannel.send(msg.member.displayName + ' a besoin de ' + quantity + " x " + item + '.').then(
                                 function (botMsg)
                                 {
@@ -44,13 +43,13 @@ client.on('message', msg => {
                                 }
                             ).catch(function()
                             {
-                                console.log("L'annonce n'a pas pu être envoyée !");
+                                msg.reply("L'annonce n'a pas pu être envoyée !");
                             });
 
                         }
                         else
                         {
-                            msg.member.send('Vous avez envoyé trop d\'arguments (' + params.length + '), 2 étaient attendus (objet, quantité).');
+                            msg.reply('Vous avez envoyé trop d\'arguments (' + params.length + '), 2 étaient attendus (objet, quantité).');
                         }
                     }
                     catch(error)
@@ -62,10 +61,26 @@ client.on('message', msg => {
                 case 'd':
 
                 break;
+                case 'm':
+                    switch(params[0])
+                    {
+                        case 'config':
+
+                        break;
+                        case 'version':
+                            var botsChannel = msg.guild.channels.find(channel => channel.name.includes("bot"));
+                            botsChannel.send("Je suis actuellement en version " + config.version + ", kupo !");
+                        break;
+                    }
+                break;
             }
         }
     }
     
+});
+
+client.on('guildMemberAdd', member => {
+    member.send("Bienvenue chez les " + member.guild.name + ", kupo !");
 });
 
 client.login(config.token);
