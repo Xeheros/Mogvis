@@ -16,16 +16,16 @@ client.on('message', msg => {
         console.log("Message sent: " + text);
         if(text.substr(0, 1) === '!')
         {
-            var regexp = /([^\s"']+|"([^"]*)")/i;
-            var args = text.substr(1).split(regexp);
-            var cmd = args[0];
+            var regexp = /[^\s"']+|"([^"]*)"|'([^']*)'/g;
+            var cmd = text.substr(1).match(regexp);
+            var args = cmd.splice(1);
 
             for(var i = 0 ; i < args.length ; i++)
             {
+                args[i] = args[i].replace(/\"/g, "")
                 console.log("args[" + i + "]: " + args[i]);
             }
-            var params = args.slice(1, args.length);
-            console.log(params);
+
             switch(cmd)
             {
                 case 'r':
