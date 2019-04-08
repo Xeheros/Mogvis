@@ -3,9 +3,9 @@ const config = require('./config.json');
 
 const sequelize = new Sequelize(config.db, config.db_username, config.db_password, {
 	host: 'localhost',
-	dialect: 'sqlite',
+	dialect: 'mysql',
 	logging: false,
-	storage: 'database.sqlite',
+	storage: 'database.mysql',
 });
 
 const Users = sequelize.import('models/User');

@@ -5,6 +5,7 @@ const client = new Discord.Client();
 const { Users, Requests } = require('./dbObjects');
 const { Op } = require('sequelize');
 const test = new Discord.Collection();
+
 const CMD_SYMBOL = '!';
 
 client.on('ready', () => {
@@ -42,7 +43,14 @@ client.on('message', msg => {
                             requestsChannel.send(msg.member.displayName + ' a besoin de ' + quantity + " x " + item + '.').then(
                                 function (botMsg)
                                 {
-                                    botMsg.react("✅");
+                                    const filter = (reaction, user) => {
+                                        return ['✅'].includes(reaction.emoji.name);
+                                    };
+                                    botMsg.react('✅').then(() => botMsg.awaitReactions(filter).then(collected => {
+                                        const reaction = collected.first();
+                                        
+                                        reaction.user.send("Tu as réagis avec " + reaction.name);
+                                    }));
                                 }
                             ).catch(function()
                             {

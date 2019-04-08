@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
     return sequelize.define('user_request', {
-        userId: DataTypes.STRING,
-        requestId: DataTypes.STRING,
+        userId: DataTypes.INTEGER,
+        requestId: DataTypes.INTEGER,
     }, {
         timestamps: false,
     });
