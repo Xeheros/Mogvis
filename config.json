@@ -1,4 +1,7 @@
 {
-    "version": "0.0.1a",
-    "token": "BOT TOKEN"
+    "version": "0.0.2a",
+    "token": "BOT_TOKEN",
+    "db": "DATABASE",
+    "db_username": "DATABASE_USERNAME",
+    "db_password": "DATABASE_PASSWORD"
 }

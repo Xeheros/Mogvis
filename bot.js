@@ -1,8 +1,11 @@
 const config = require('./config.json');
-
 const Discord = require('discord.js');
 
 const client = new Discord.Client();
+const { Users, Requests } = require('./dbObjects');
+const { Op } = require('sequelize');
+const test = new Discord.Collection();
+const CMD_SYMBOL = '!';
 
 client.on('ready', () => {
     console.log("Ready to work!");
@@ -13,7 +16,7 @@ client.on('message', msg => {
     {
         var text = msg.content;
         var channel = msg.channel;
-        if(text.substr(0, 1) === '!')
+        if(text.startsWith(CMD_SYMBOL))
         {
             var regexp = /[^\s"']+|"([^"]*)"|'([^']*)'/g;
             var args = text.substr(1).match(regexp);
@@ -34,7 +37,7 @@ client.on('message', msg => {
                         var quantity = parseInt(params[1]);
                         if(params.length == 2 && !isNaN(quantity))
                         {
-                            // Notify creation of the request by direct message.
+                            // Notify creation of the request on the requests channel.
                             var requestsChannel = msg.guild.channels.find(channel => (channel.name.includes("request") || channel.name.includes("requête")));
                             requestsChannel.send(msg.member.displayName + ' a besoin de ' + quantity + " x " + item + '.').then(
                                 function (botMsg)
