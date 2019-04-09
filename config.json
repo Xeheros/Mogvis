@@ -1,7 +1,12 @@
 {
-    "version": "0.0.2a",
+    "version": "0.0.2b",
     "token": "BOT_TOKEN",
     "db": "DATABASE",
     "db_username": "DATABASE_USERNAME",
-    "db_password": "DATABASE_PASSWORD"
+    "db_password": "DATABASE_PASSWORD",
+
+    "timers":
+    {
+        "chocolatine": 60000
+    }
 }

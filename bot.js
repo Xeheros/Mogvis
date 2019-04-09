@@ -2,9 +2,9 @@ const config = require('./config.json');
 const Discord = require('discord.js');
 
 const client = new Discord.Client();
-const { Users, Requests } = require('./dbObjects');
+/*const { Users, Requests } = require('./dbObjects');
 const { Op } = require('sequelize');
-const test = new Discord.Collection();
+const test = new Discord.Collection();*/
 
 const CMD_SYMBOL = '!';
 
@@ -73,22 +73,65 @@ client.on('message', msg => {
 
                 break;
                 case 'm':
+                    var botsChannel = msg.guild.channels.find(channel => channel.name.includes("bot"));
                     switch(params[0])
                     {
-                        case 'config':
-
+                        case 'ping':
+                            msg.reply("tu es en retard de " + client.ping + "ms, kupo !");
+                        break;
+                        case 'uptime':
+                            botsChannel.send("Je suis réveillé depuis " + readifyTime(client.uptime) + ", kupopo...");
                         break;
                         case 'version':
-                            var botsChannel = msg.guild.channels.find(channel => channel.name.includes("bot"));
-                            botsChannel.send("Je suis actuellement en version " + config.version + ", kupo !");
+                            botsChannel.send("Je suis actuellement en version " + config.version + ", kw... euh... kupo !");
                         break;
                     }
                 break;
             }
         }
+        else if(text.toLowerCase().includes("chocolatine") && msg.member.id != msg.guild.ownerID)
+        {
+            try
+            {
+                var currentNickName = msg.member.displayName;
+                msg.member.setNickname('Chocopabo', 'Hérétisme envers le Saint Pain au chocolat !');
+                msg.reply("et crois-tu qu'Éorzéa est plate, kupo ?");
+                setTimeout(() => msg.member.setNickname(currentNickName), config.timers.chocolatine);
+            }
+            catch(error)
+            {
+                console.error(error);
+            }
+        }
     }
     
 });
+
+function readifyTime(uptime)
+{
+    var readifiedTime = "";
+    var hours = 0;
+    var minutes = 0;
+    var seconds = Math.floor(uptime / 1000);
+
+    if(seconds > 60)
+    {
+        minutes = Math.floor(seconds / 60);
+        seconds = seconds % 60;
+
+        if(minutes > 60)
+        {
+            hours = Math.floor(minutes / 60);
+            minutes = minutes % 60;
+        }
+    }
+
+    readifiedTime = (hours > 0 ? hours + " heure" + (hours > 1 ? "s" : "") : "")
+                    + (minutes > 0 ? (hours > 0 ? ", " : "") + minutes + " minute" + (minutes > 1 ? "s" : "") : "")
+                    + (seconds > 0 ? (hours > 0 || minutes > 0 ? " et " : "") + seconds + " seconde" + (seconds > 1 ? "s" : "") : "")
+
+    return readifiedTime;
+}
 
 client.on('guildMemberAdd', member => {
     member.send("Bienvenue chez les " + member.guild.name + ", kupo !");
