@@ -66,7 +66,7 @@ client.on('message', msg => {
                     catch(error)
                     {
                         console.error(error);
-                        msg.reply("Une erreur est survenue durant le traitement de cette commande.");
+                        msg.author.send("Une erreur est survenue durant le traitement de cette commande.");
                     }
                 break;
                 case 'd':
@@ -96,7 +96,10 @@ client.on('message', msg => {
                 var currentNickName = msg.member.displayName;
                 msg.member.setNickname('Chocopabo', 'Hérétisme envers le Saint Pain au chocolat !');
                 msg.reply("et crois-tu qu'Éorzéa est plate, kupo ?");
-                setTimeout(() => msg.member.setNickname(currentNickName), config.timers.chocolatine);
+                setTimeout(() => {
+                    msg.member.setNickname(currentNickName), config.timers.chocolatine
+                    msg.reply("j'espère que tu ne nous feras plus honte, kupo !");
+                });
             }
             catch(error)
             {
