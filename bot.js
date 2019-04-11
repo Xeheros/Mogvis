@@ -39,22 +39,25 @@ client.on('message', msg => {
                         if(params.length == 2 && !isNaN(quantity))
                         {
                             // Notify creation of the request on the requests channel.
-                            var requestsChannel = msg.guild.channels.find(channel => (channel.name.includes("request") || channel.name.includes("requête")));
-                            requestsChannel.send(msg.member.displayName + ' a besoin de ' + quantity + " x " + item + '.').then(
-                                function (botMsg)
-                                {
-                                    const filter = (reaction, user) => {
-                                        return ['✅'].includes(reaction.emoji.name);
-                                    };
-                                    botMsg.react('✅').then(() => botMsg.awaitReactions(filter).then(collected => {
-                                        const reaction = collected.first();
-                                        
-                                        reaction.user.send("Tu as réagis avec " + reaction.name);
-                                    }));
-                                }
-                            ).catch(function()
-                            {
-                                msg.reply("L'annonce n'a pas pu être envoyée !");
+                            msg.guild.channels.find(channel => (channel.name.includes("request") || channel.name.includes("requête"))).then(requestsChannel => {
+                                requestsChannel.send(msg.member.displayName + ' a besoin de ' + quantity + " x " + item + '.').then(
+                                    function (botMsg)
+                                    {
+                                        const filter = (reaction, user) => {
+                                            return ['✅'].includes(reaction.emoji.name);
+                                        };
+                                        botMsg.react('✅').then(() => botMsg.awaitReactions(filter).then(collected => {
+                                            const reaction = collected.first();
+                                            
+                                            reaction.user.send("Tu as réagis avec " + reaction.name);
+                                        }));
+                                    }
+                                ).catch(function() {
+                                    msg.reply("L'annonce n'a pas pu être envoyée !");
+                                });
+                            }
+                            ).catch(function() {
+                                console.warn("Aucun salon 'bot(s)' n'a été trouvé.");
                             });
 
                         }
